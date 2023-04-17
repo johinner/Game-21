@@ -1,5 +1,4 @@
 import { deck } from "..";
-import * as elemento from "./elementosHtml";
 
 const crearBarajas = (tipos:string[], especiales:string[]):string[] => {
     if(deck.length === 0){
@@ -22,16 +21,8 @@ const valorCartaSeleccionada = (carta: string):number  => {
     return isNaN(cadenaExtraida) ? (cadenaExtraida === "A") ? 11 : 10 : cadenaExtraida * 1;
 }
 
-const renderCarta = (carta: string, numeroElementoHTML: number): void => {
-    const imgCarta = document.createElement('img');
-    imgCarta.src = `assets/img/cartas/${carta}.png`;
-    imgCarta.classList.add('carta');
-
-    elemento.$divCartasJugadore[numeroElementoHTML].append(imgCarta);
-}
 
 export default {
     crearBarajas,
     valorCartaSeleccionada,
-    renderCarta
 }
