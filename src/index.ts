@@ -25,8 +25,7 @@ const tipos: string[] = ["C", "D", "H", "S"],
 
 (()=>{
     const iniciarJuego = () => {
-        $btnPedir.disabled = false;
-        $btnDetener.disabled = false;
+        btnDisabled(false)
 
         deck = [];
         crearDeck.crearBarajas(tipos, especiales);
@@ -38,24 +37,23 @@ const tipos: string[] = ["C", "D", "H", "S"],
         $btnPedir.addEventListener('click', ()=> {
           const carta = acciones.pedirCarta()
           acciones.acumularPuntos(carta, false)
-          renderCarta(carta, jugadores[0].id)
+          renderCarta(carta, jugadores[0])
+
+          if(jugadores[0].puntos > 21){
+            console.error('Perdiste!! superaste los 21')
+            btnDisabled(true)
+            acciones.turnoComputadora(jugadores[0].puntos)
+          }
         })
 
 
         $btnDetener.addEventListener('click', ()=> {
-          $btnPedir.disabled = true;
-          $btnDetener.disabled = true;
+          btnDisabled(true);
 
           acciones.turnoComputadora(jugadores[0].puntos)
-          console.log({jugadores})
+          
+          acciones.determinarGanador();
         })
-
-
-        
-        //renderBloqueJugador(jugadores[1], "grupoRivales")
-       // console.log({jugadores})
-
-
         
         console.log(deck)
     }
@@ -63,6 +61,11 @@ const tipos: string[] = ["C", "D", "H", "S"],
     $vsMaquina?.addEventListener('click', ()=> {
       iniciarJuego();
     })
+
+    const btnDisabled = (boolean: boolean): void => {
+      $btnPedir.disabled = boolean;
+      $btnDetener.disabled = boolean;
+    }
     
 })()
 

@@ -10,8 +10,8 @@ export const renderBloqueJugador = (dataJugador:Jugador , renderUbicacion: strin
   div.innerHTML = ` 
         <div class="col">
             <h1>
-                ${dataJugador.nombre} 
-                <small>${dataJugador.puntos}</small>
+                ${dataJugador.nombre}
+                <small>0</small>
             </h1>
             <div id="computadora-cartas" class="divCartas">
 
