@@ -13,7 +13,7 @@ export const renderBloqueJugador = (dataJugador:Jugador , renderUbicacion: strin
                 ${dataJugador.nombre}
                 <small>0</small>
             </h1>
-            <div id="computadora-cartas" class="divCartas">
+            <div class="divCartas">
 
             </div>
         </div>

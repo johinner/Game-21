@@ -1,9 +1,11 @@
 import { deck, jugadores } from "..";
-import { puntosJugadores } from "../classes/jugadores";
+import { puntosJugador } from "../classes/jugadores";
 import { Jugador } from "../interfaces/jugador";
 import { renderBloqueJugador } from "../presentation/render-bloque-jugador";
 import { renderCarta } from "../presentation/render-carta";
 import crearDeck from "./crearDeck";
+
+import { v4 as uuidv4 } from 'uuid';
 
 export const pedirCarta = (): string => {
   if (deck.length === 0) throw "no hay cartas en la baraja";
@@ -20,12 +22,12 @@ export const acumularPuntos = (
   jugadores[indice].puntos =
     jugadores[indice].puntos +
     crearDeck.valorCartaSeleccionada(cartaSelecionada);
-  jugadores[indice].cartasSelecionadas.push(cartaSelecionada);
+  jugadores[indice].cartas.push(cartaSelecionada);
   return jugadores[indice];
 };
 
 export const turnoComputadora = (puntosMinimos: number): void => {
-  jugadores.push(new puntosJugadores("maquina", "computadora", 0, []));
+  jugadores.push(new puntosJugador(`id-${uuidv4()}`, "computadora", 0, []));
   renderBloqueJugador(jugadores[1], "grupoRivales");
   do {
     const carta = pedirCarta();
@@ -53,10 +55,13 @@ export const determinarGanador = (): object => {
   });
 
   if(jugadoresEmpatados.length > 1){
-    console.info('Empate')
+    console.info(`Empate:`)
+    console.log(jugadoresEmpatados)
     return {
         jugadoresEmpatados
     }
   }
+  console.info(`Jugador Ganador:`)
+  console.log(jugadorGanador)
   return jugadorGanador;
 };

@@ -102,3 +102,34 @@ ol {
 #computadora-cartas, #jugador-cartas{
     height: 240px;
 }
+
+.modo button{
+    margin: auto;
+    width: 40%;
+}
+
+#divBotones {
+    padding-top: 30px;
+}
+#divBotones button{
+    width: 30%;
+}
+
+
+.loader {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    border: 8px solid #f3f3f3; /* color del borde */
+    border-top: 8px solid #3498db; /* color del borde superior */
+    border-radius: 50%; /* crear un círculo */
+    width: 60px; /* ancho del loader */
+    height: 60px; /* altura del loader */
+    animation: spin 2s linear infinite; /* animación de carga */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
