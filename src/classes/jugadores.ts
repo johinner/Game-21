@@ -4,6 +4,7 @@ export class puntosJugador {
         public nombre: string,
         public puntos: number = 0,
         public cartas: string[],
+        public jugadaFinalizada: false,
     ){}
     set modificarPuntos(puntos: number){
          this.puntos = this.puntos + puntos;

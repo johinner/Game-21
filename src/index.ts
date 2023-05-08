@@ -29,7 +29,10 @@ const tipos: string[] = ["C", "D", "H", "S"],
 export const btnDisabled = (boolean: boolean): void => {
   $btnPedir.disabled = boolean;
   $btnDetener.disabled = boolean;
+  $btnNuevo.disabled = boolean;
 };
+
+let detener = false;
 
 (() => {
   nombre = prompt("¿Cómo te llamas?") || "Jugador Local";
@@ -47,7 +50,7 @@ export const btnDisabled = (boolean: boolean): void => {
     btnDisabled(false);
     iniciarJuego();
 
-    jugadores.push(new puntosJugador(id, nombre, 0, []));
+    jugadores.push(new puntosJugador(id, nombre, 0, [], false));
     renderBloqueJugador(jugadores[0], "localJudador");
 
     $btnPedir.addEventListener("click", () => {
@@ -57,27 +60,35 @@ export const btnDisabled = (boolean: boolean): void => {
       enviarCartaSeleccionada(carta, jugadores[0].puntos);
 
       renderCarta(carta, jugadores[0]);
-
     });
 
     $btnDetener.addEventListener("click", () => {
+      jugadores[0].jugadaFinalizada = true;
       btnDisabled(true);
-      obtenerRivales(true);
+      enviarDatos(nombre, true);
 
-      //TODO: Escucha cuando el rival finalice su jugada
-      jugadores.forEach((jugador: Jugador)=> {
-        if(jugador.id != id){
-          console.log(jugador.cartas)
-          jugador.cartas.forEach((carta: string)=> {
-            renderCarta(carta, jugador);
-          })
-          
+      const esperaStopJugador = () => {
+        console.log("Ejecutando...");
+        //TODO: Escucha cuando el rival finalice su jugada
+        const resultado = jugadores.find(
+          (jugador) => jugador.jugadaFinalizada === false
+        );
+        obtenerRivales(true);
+
+        if (resultado === undefined) {
+          clearInterval(intervalId);
+          jugadores.forEach((jugador: Jugador) => {
+            if (jugador.id != id) {
+              jugador.cartas.forEach((carta: string) => {
+                renderCarta(carta, jugador);
+              });
+            }
+          });
+          acciones.determinarGanador();
         }
-      })
-      
-      console.log(jugadores)
+      };
+      const intervalId = setInterval(esperaStopJugador, 1000);
     });
-    $btnNuevo.disabled = true;
   };
 
   $buscarRival.addEventListener("click", async () => {
@@ -87,7 +98,7 @@ export const btnDisabled = (boolean: boolean): void => {
 
     $loader.style.display = "block";
     id = (await obtenerId("http://localhost:8080/unirse")) || "";
-    enviarDatos(nombre);
+    enviarDatos(nombre, false);
 
     const intervalId = setInterval(obtenerRivales, intervalTime);
 
@@ -101,11 +112,8 @@ export const btnDisabled = (boolean: boolean): void => {
         }
       });
     }, totalTime);
-
     iniciarJuegoMultiJugador();
   });
-
-  $btnNuevo.addEventListener("click", () => {});
 
   // unirse
   const obtenerId = async (url: string) => {
@@ -118,7 +126,7 @@ export const btnDisabled = (boolean: boolean): void => {
     }
   };
 
-  const enviarDatos = (nombre: string) => {
+  const enviarDatos = (nombre: string, jugadaFinalizada: boolean) => {
     fetch(`http://localhost:8080/21/${id}`, {
       method: "POST",
       headers: {
@@ -126,6 +134,7 @@ export const btnDisabled = (boolean: boolean): void => {
       },
       body: JSON.stringify({
         nombre,
+        jugadaFinalizada,
       }),
     });
   };
@@ -156,8 +165,8 @@ export const btnDisabled = (boolean: boolean): void => {
         if (actualizar) {
           jugadores[jugadorIndex].cartas = jugador.cartas;
           jugadores[jugadorIndex].puntos = jugador.puntos;
+          jugadores[jugadorIndex].jugadaFinalizada = jugador.jugadaFinalizada;
         } else {
-
           if (jugadorIndex === -1) {
             jugadores.push(jugador);
           }
@@ -169,23 +178,4 @@ export const btnDisabled = (boolean: boolean): void => {
     }
   };
 
-
-  /* const obtenerRivales = (url: string) => {
-  const esperar = new Promise(resolve => {
-    setTimeout(resolve, 5000);
-  });
-  
-  // Utiliza Promise.all() para ejecutar las promesas en paralelo
-  Promise.all([fetch(url), esperar])
-    .then(([respuesta]) => respuesta.json())
-    .then(datos => {
-  
-      // Haz algo con los datos que has recibido
-      console.log(datos);
-      console.log(datos.length)
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  } */
 })();

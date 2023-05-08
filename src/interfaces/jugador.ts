@@ -3,4 +3,5 @@ export interface Jugador{
      nombre: string,
      puntos: number,
      cartas: string[],
+     jugadaFinalizada: boolean,
 }

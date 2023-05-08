@@ -10,6 +10,7 @@ class Jugador {
     constructor(id){
         this.id = id
         this.cartas = []
+        this.jugadaFinalizada = false
     }
 
     asignarNombre(nombre){
@@ -40,14 +41,15 @@ app.post("/21/:jugadorId", (req, res) => {
 
     const jugadorId = req.params.jugadorId || "";
     const nombre = req.body.nombre || "";
+    const jugadaFinalizada = req.body.jugadaFinalizada || false;
 
     const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
 
      if(jugadorIndex >= 0 ){
          jugadores[jugadorIndex].asignarNombre(nombre)
+         jugadores[jugadorIndex].jugadaFinalizada = jugadaFinalizada
      }
     res.end()
-    console.log(jugadores)
 })
 
 app.post('/21/:jugadorId/cartaSelecion', (req, res) => {

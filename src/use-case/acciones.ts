@@ -27,7 +27,7 @@ export const acumularPuntos = (
 };
 
 export const turnoComputadora = (puntosMinimos: number): void => {
-  jugadores.push(new puntosJugador(`id-${uuidv4()}`, "computadora", 0, []));
+  jugadores.push(new puntosJugador(`id-${uuidv4()}`, "computadora", 0, [], false));
   renderBloqueJugador(jugadores[1], "grupoRivales");
   do {
     const carta = pedirCarta();
