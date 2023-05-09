@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 export const vsMaquina = () => {
     btnDisabled(false);
     
-    jugadores.push(new puntosJugador(`id-${uuidv4()}`, nombre, 0, []));
+    jugadores.push(new puntosJugador(`id-${uuidv4()}`, nombre, 0, [], false));
     renderBloqueJugador(jugadores[0], "localJudador");
 
     $btnPedir.addEventListener("click", () => {
