@@ -21,7 +21,7 @@ export let deck: string[] = [];
 export let jugadores: Jugador[] = [];
 
 export let nombre: string = "";
-let id: any = null;
+export let id: any = null;
 
 const tipos: string[] = ["C", "D", "H", "S"],
   especiales: string[] = ["J", "K", "Q", "A"];
@@ -47,7 +47,6 @@ let detener = false;
   });
 
   const iniciarJuegoMultiJugador = () => {
-    btnDisabled(false);
     iniciarJuego();
 
     jugadores.push(new puntosJugador(id, nombre, 0, [], false));
@@ -68,7 +67,6 @@ let detener = false;
       enviarDatos(nombre, true);
 
       const esperaStopJugador = () => {
-        console.log("Ejecutando...");
         //TODO: Escucha cuando el rival finalice su jugada
         const resultado = jugadores.find(
           (jugador) => jugador.jugadaFinalizada === false
@@ -79,6 +77,8 @@ let detener = false;
           clearInterval(intervalId);
           jugadores.forEach((jugador: Jugador) => {
             if (jugador.id != id) {
+             const $loaderJugador = document.querySelector(`#${jugador.id} .loader`) as HTMLDivElement;
+              $loaderJugador.style.display = "none"
               jugador.cartas.forEach((carta: string) => {
                 renderCarta(carta, jugador);
               });
@@ -105,6 +105,7 @@ let detener = false;
     setTimeout(() => {
       clearInterval(intervalId);
       $loader.style.display = "none";
+      btnDisabled(false);
 
       jugadores.forEach((jugador: Jugador) => {
         if (jugador.id != id) {
@@ -140,7 +141,6 @@ let detener = false;
   };
 
   const enviarCartaSeleccionada = (carta: string, puntos: number) => {
-    console.log(carta);
     fetch(`http://localhost:8080/21/${id}/cartaSelecion`, {
       method: "POST",
       headers: {
