@@ -1,4 +1,5 @@
-# Proyecto inicial - Curso de TypeScript
+# GAME 21 Multi Jugador
+## Proyecto inicial compilar TypeScript
 
 * Lo primero que debemos de hacer después de descargar el código es ejecutar el comando:
 
@@ -15,7 +16,7 @@ npm start
 ```
 Para que eso funcione, recuerden que deben de ejecutar ese comando en el mismo directorio donde se encuentra el ```package.json```
 
-## Cambiar el puerto
+### Cambiar el puerto
 Por defecto, el puerto que configuré para este proyecto es el ```8081```, pero si necesitan cambiarlo porque pueda que ese puerto lo use su computadora, pueden cambiarlo abriendo el ```package.json``` >> scripts. Ahí verán la instrucción que lanza el servidor de desarrollo
 
 ```
@@ -25,4 +26,11 @@ Por defecto, el puerto que configuré para este proyecto es el ```8081```, pero 
 Simplemente cambian el puerto por el que ustedes necesiten y listo. (lógicamente graban los cambios antes de ejecutar el ```npm start``` nuevamente)
 
 
-# curso-typescript
+## Servidor node js con express
+
+* Abrir una terminar desde la ruta del proyecto y ejecutar el siguiente comando
+
+```
+node /servidor/app.js
+```
+
